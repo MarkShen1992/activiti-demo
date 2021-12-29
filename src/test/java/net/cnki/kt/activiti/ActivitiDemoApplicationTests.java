@@ -1,12 +1,10 @@
 package net.cnki.kt.activiti;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.Test;
 
-@SpringBootTest
-class ActivitiDemoApplicationTests {
+public class ActivitiDemoApplicationTests {
     @Test
-    void contextLoads() {
+    public void contextLoads() {
 
     }
 }
