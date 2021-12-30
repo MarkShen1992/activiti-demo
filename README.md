@@ -83,47 +83,57 @@
 
 #### 1. RepositoryService
 
-> RepositoryService的主要功能是：
+> RepositoryService的主要功能是：负责对流程定义文件的管理，主要操作静态文件，如流程文件xml, 流程图片。涉及到两个实体对象，部署对象和资源对象。
 
-
+- 管理流程定义文件xml及静态资源的服务
+- 对特定流程的暂停和激活
+- 流程定义启动权限管理
+- 部署文件构造器DeploymentBuilder
+- 部署文件查询器DeploymentQuery
+- 流程定义文件查询对象 ProcessDefinitionQuery
+- 流程部署文件对象 Deployment
+- 流程定义文件对象 ProcessDefinition
+- 流程定义的 Java 格式 BpmnModel
 
 #### 2. TaskService
 
-> TaskService的主要功能是：
+> TaskService的主要功能是：对人工任务进行CRUD操作。对用户任务设置指定的用户权限，指定到用户到用户组。同时对于用户任务的上下文一些变量进行设置或获取。
 
 
 
 #### 3. IdentityService
 
-> IdentityService的主要功能是：
+> IdentityService的主要功能是：对用户和用户组的管理。
 
 
 
 #### 4. FormService
 
-> FormService的主要功能是：
+> FormService的主要功能是：解析流程定义中的表单。对表单的输入类型，格式进行数据渲染。启动表单，User Task 里的表单。
 
 
 
 #### 5. RunTimeService
 
-> RunTimeService的主要功能是：
+> RunTimeService的主要功能是：对流程进行控制的一个服务API，可以用它启动一个流程实例。根据指定的流程实例执行暂停，挂起或继续激活执行。包括很多丰富的查询API. 可以查到运行的流程实例和运行对象。同时对流程中上下文数据进行设置和获取。
 
 
 
 #### 6. ManagementService
 
-> ManagementService的主要功能是：
+> ManagementService的主要功能是：对流程引擎基础的一些管理，提供了对定时任务Job的一些管理，提供了获取数据库表名的一些方法。
 
 
 
 #### 7. HistoryService
 
-> HistoryService的主要功能是：
+> HistoryService的主要功能是：提供了对运行结束的流程实例的一些查询功能，也提供了流程，用户任务维度的删除操作。便于统计流程中的变化。获取流程上下文中的快照数据。
 
 
 
+#### 8. DynamicBpmService
 
+> DynamicBpmService的主要功能是：可以对动态的流程模型做修改。
 
 
 
