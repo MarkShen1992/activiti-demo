@@ -4,14 +4,15 @@
     <property name="log.dir" value="target/logs"/>
     <property name="encoding" value="UTF-8"/>
     <property name="plain" value="%-4relative [%thread] %-5level %logger{35} - %msg %n"/>
-    <property name="mdc" value=""/>
+    <property name="mdc" value="%d{HH:mm:ss.SSS}[%thread][%-5level]%msg ProcessDefinitionId=%X{mdcProcessDefinitionID}
+executionId=%X{mdcExecutionId} mdcProcessInstanceID=%X{mdcProcessInstanceID} mdcBusinessKey=%X{mdcBusinessKey} %m%n"/>
     <property name="normal" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"/>
 
     <!--控制台日志， 控制台输出 -->
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度,%msg：日志消息，%n是换行符-->
-            <pattern>${plain}</pattern>
+            <pattern>${mdc}</pattern>
             <charset>${encoding}</charset>
         </encoder>
     </appender>
@@ -34,7 +35,7 @@
     </appender>
 
     <logger name="root">
-        <level value="ERROR"/>
+        <level value="INFO"/>
     </logger>
     <logger name="net.cnki.kt.activiti">
         <level value="INFO"/>
