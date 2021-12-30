@@ -74,6 +74,11 @@
       </bean>
   ```
 
+- 作业执行器的配置
+  - timeDate: 指定启动时间
+  - timeDuration: 指定持续时间间隔后执行
+  - timeCycle:R5/P1DT1H 指定事件段后周期执行
+
 ### 各种 Service 的使用场景
 
 #### 1. RepositoryService
