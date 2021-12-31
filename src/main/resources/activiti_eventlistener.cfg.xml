@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="processEngineConfiguration" class="org.activiti.engine.impl.cfg.StandaloneProcessEngineConfiguration">
+        <property name="databaseSchemaUpdate" value="true"/>
+        <property name="jdbcUrl" value="jdbc:h2:mem:activiti"/>
+        <property name="jdbcDriver" value="org.h2.Driver"/>
+        <property name="jdbcUsername" value="sa"/>
+        <property name="jdbcPassword" value=""/>
+
+        <!--        <property name="commandInvoker" ref="commandInvoker"/>-->
+
+        <!-- way 01 -->
+        <!--        <property name="eventListeners">-->
+        <!--            <list>-->
+        <!--                <bean class="ProcessEventListener"/>-->
+        <!--                <bean class="CustomizeEventListener"/>-->
+        <!--            </list>-->
+        <!--        </property>-->
+
+        <!-- way 02 -->
+        <property name="typedEventListeners">
+            <map>
+                <entry key="PROCESS_STARTED">
+                    <list>
+                        <bean class="io.github.event.ProcessEventListener"/>
+                    </list>
+                </entry>
+                <entry key="CUSTOM">
+                    <list>
+                        <bean class="io.github.event.CustomizeEventListener"/>
+                    </list>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="commandInvoker" class="io.github.interceptor.MDCCommandInvoker"/>
+</beans>
