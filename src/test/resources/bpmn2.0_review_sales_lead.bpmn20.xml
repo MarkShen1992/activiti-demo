@@ -4,16 +4,17 @@
              xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
              typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath"
              targetNamespace="http://www.activiti.org/test">
+
+    <error id="notEnoughInfoError" errorCode="not_enough_info"/>
+
     <process id="reviewSaledLead" name="Review sales lead" isExecutable="true">
         <startEvent id="theStart" name="Process Start" activiti:initiator="initiator"/>
         <sequenceFlow id="flow1" sourceRef="theStart" targetRef="provideNewSalesLead"/>
         <userTask id="provideNewSalesLead" name="Provider new sales lead" activiti:assignee="${initiator}">
             <extensionElements>
-                <activiti:formProperty id="customerName" name="Customer Name" type="string"
-                                       required="true"/>
+                <activiti:formProperty id="customerName" name="Customer Name" type="string" required="true"/>
                 <activiti:formProperty id="potentialProfit" name="Potential Profit" type="long"/>
-                <activiti:formProperty id="details" name="Details" type="string"
-                                       required="true"/>
+                <activiti:formProperty id="details" name="Details" type="string"/>
             </extensionElements>
         </userTask>
         <sequenceFlow id="flow2" sourceRef="provideNewSalesLead" targetRef="reviewSalesLeadSubProcess"/>
@@ -24,8 +25,7 @@
 
             <parallelGateway id="fork" name="Parallel Gateway"/>
             <sequenceFlow id="flow5" sourceRef="fork" targetRef="reviewCustomerRating"/>
-            <userTask id="reviewCustomerRating" name="Reivew custing rating"
-                      activiti:candidateGroups="accountancy"/>
+            <userTask id="reviewCustomerRating" name="Review customer rating" activiti:candidateGroups="accountancy"/>
             <sequenceFlow id="flow6" sourceRef="reviewCustomerRating" targetRef="subProcessEnd1"/>
             <endEvent id="subProcessEnd1" name="End"/>
             <userTask id="reviewProfitability" name="Review Profitability" activiti:candidateGroups="management">
@@ -39,42 +39,38 @@
                     </activiti:formProperty>
                 </extensionElements>
             </userTask>
-
+            <sequenceFlow id="flow7" sourceRef="reviewProfitability" targetRef="notEnoughInformationCheck"/>
             <exclusiveGateway id="notEnoughInformationCheck" name="enough Information?"/>
-            <sequenceFlow id="flow7" sourceRef="reviewProfitability"
-                          targetRef="notEnoughInformationCheck"/>
-            <endEvent id="subProcessEnd2" name="End"/>
-            <sequenceFlow id="flow9" sourceRef="notEnoughInformationCheck" targetRef="subProcessEnd2">
-                <conditionExpression xsi:type="tFormalExpression">
-                    <![CDATA[${notEnoughInformation == 'false'}]]></conditionExpression>
-            </sequenceFlow>
-            <endEvent id="notEnoughInformationEnd" name="ErrorEnd">
-                <errorEventDefinition errorRef="not_enough_info"/>
-            </endEvent>
             <sequenceFlow id="flow8" sourceRef="notEnoughInformationCheck" targetRef="notEnoughInformationEnd">
                 <conditionExpression xsi:type="tFormalExpression">
                     <![CDATA[${notEnoughInformation == 'true'}]]></conditionExpression>
             </sequenceFlow>
-        </subProcess>
+            <endEvent id="notEnoughInformationEnd" name="ErrorEnd">
+                <errorEventDefinition errorRef="notEnoughInfoError"/>
+            </endEvent>
 
-        <manualTask id="storeLeadInCRMSystem" name="Store lead in CRM System"/>
-        <sequenceFlow id="flow13" sourceRef="reviewSalesLeadSubProcess" targetRef="storeLeadInCRMSystem"/>
-        <endEvent id="processEnd" name="End"/>
-        <sequenceFlow id="flow14" sourceRef="storeLeadInCRMSystem" targetRef="processEnd"/>
-        <boundaryEvent id="catchNotEnoughInformationError" name="Error" attachedToRef="reviewSalesLeadSubProcess">
+            <sequenceFlow id="flow9" sourceRef="notEnoughInformationCheck" targetRef="subProcessEnd2">
+                <conditionExpression xsi:type="tFormalExpression">
+                    <![CDATA[${notEnoughInformation == 'false'}]]></conditionExpression>
+            </sequenceFlow>
+            <endEvent id="subProcessEnd2" name="End"/>
+        </subProcess>
+        <sequenceFlow id="flow10" sourceRef="reviewSalesLeadSubProcess" targetRef="storeLeadInCRMSystem"/>
+        <boundaryEvent id="catchNotEnoughInformationError" attachedToRef="reviewSalesLeadSubProcess"
+                       cancelActivity="true">
             <errorEventDefinition errorRef="notEnoughInfoError"/>
         </boundaryEvent>
+        <sequenceFlow id="flow11" sourceRef="catchNotEnoughInformationError" targetRef="provideAdditionalDetails"/>
         <userTask id="provideAdditionalDetails" name="Provide additional details" activiti:assignee="${initiator}">
             <documentation>Provide additional details for ${customerName}.</documentation>
             <extensionElements>
-                <activiti:formProperty id="details" name="Additional Details" type="string"
-                                       required="true"/>
+                <activiti:formProperty id="details" name="Additional Details" type="string" required="true"/>
             </extensionElements>
         </userTask>
-        <sequenceFlow id="flow11" sourceRef="catchNotEnoughInformationError"
-                      targetRef="provideAdditionalDetails"/>
-        <sequenceFlow id="flow12" sourceRef="provideAdditionalDetails"
-                      targetRef="reviewSalesLeadSubProcess"/>
+        <sequenceFlow id="flow12" sourceRef="provideAdditionalDetails" targetRef="reviewSalesLeadSubProcess"/>
+        <manualTask id="storeLeadInCRMSystem" name="Store lead in CRM System"/>
+        <sequenceFlow id="flow13" sourceRef="storeLeadInCRMSystem" targetRef="processEnd"/>
+        <endEvent id="processEnd" name="End"/>
     </process>
 
     <bpmndi:BPMNDiagram id="BPMNDiagram_reviewSaledLead">
