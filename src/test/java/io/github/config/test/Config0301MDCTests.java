@@ -1,5 +1,8 @@
 package io.github.config.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import org.activiti.engine.logging.LogMDC;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
@@ -9,9 +12,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 public class Config0301MDCTests {
 
@@ -38,7 +38,7 @@ public class Config0301MDCTests {
     /**
      * 根据资源文件去创建
      */
-    @Test
+    @Test(expected = RuntimeException.class)
     @Deployment(resources = {"my-process_mdcerror.bpmn20.xml"})
     public void testConfigMDC2() {
         LogMDC.setMDCEnabled(true);
