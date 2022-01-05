@@ -1,6 +1,7 @@
 package io.github.bpmn20.learn;
 
 import java.util.List;
+import java.util.Map;
 
 import org.activiti.engine.ActivitiEngineAgenda;
 import org.activiti.engine.ManagementService;
@@ -14,6 +15,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.collect.Maps;
 
 /**
  * @author shenjunyu
@@ -32,7 +35,7 @@ public class ServiceTaskTest {
      */
     @Test
     @Deployment(resources = {"bpmn2.0_service_task_1.bpmn20.xml"})
-    public void testUserTask() {
+    public void testServiceTask() {
         ProcessInstance processInstance = activityRule.getRuntimeService().startProcessInstanceByKey("my-process");
         List<HistoricActivityInstance> historicActivityInstances = activityRule.getHistoryService()
             .createHistoricActivityInstanceQuery().orderByHistoricActivityInstanceEndTime().asc().list();
@@ -44,7 +47,7 @@ public class ServiceTaskTest {
 
     @Test
     @Deployment(resources = {"bpmn2.0_service_task_2.bpmn20.xml"})
-    public void testUserTask2() {
+    public void testServiceTask2() {
         ProcessInstance processInstance = activityRule.getRuntimeService().startProcessInstanceByKey("my-process");
         List<HistoricActivityInstance> historicActivityInstances = activityRule.getHistoryService()
             .createHistoricActivityInstanceQuery().orderByHistoricActivityInstanceEndTime().asc().list();
@@ -59,7 +62,7 @@ public class ServiceTaskTest {
      */
     @Test
     @Deployment(resources = {"bpmn2.0_service_task_2.bpmn20.xml"})
-    public void testUserTask3() {
+    public void testServiceTask3() {
         ProcessInstance processInstance = activityRule.getRuntimeService().startProcessInstanceByKey("my-process");
         List<HistoricActivityInstance> historicActivityInstances = activityRule.getHistoryService()
             .createHistoricActivityInstanceQuery().orderByHistoricActivityInstanceEndTime().asc().list();
@@ -85,5 +88,16 @@ public class ServiceTaskTest {
             LOGGER.info("activity = {}", historicActivityInstance);
         }
         LOGGER.info("activities size = {}", historicActivityInstances.size());
+    }
+
+    /**
+     * 流程等待
+     */
+    @Test
+    @Deployment(resources = {"bpmn2.0_service_task_3.bpmn20.xml"})
+    public void testServiceTask4() {
+        Map<String, Object> variables = Maps.newHashMap();
+        variables.put("desc", "the test java delegate");
+        activityRule.getRuntimeService().startProcessInstanceByKey("my-process", variables);
     }
 }
