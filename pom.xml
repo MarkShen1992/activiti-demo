@@ -8,7 +8,7 @@
         <version>2.6.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>net.cnki.kt</groupId>
+    <groupId>io.github</groupId>
     <artifactId>activiti-demo</artifactId>
     <version>1.0.0</version>
     <name>activiti-demo</name>
