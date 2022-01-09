@@ -35,4 +35,5 @@
     </bean>
 
     <bean id="helloBean" class="io.github.helloworld.HelloBean"/>
+    <bean id="myJavaDelegate" class="io.github.delegate.MyJavaDelegate"/>
 </beans>
