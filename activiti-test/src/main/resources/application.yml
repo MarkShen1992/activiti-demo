@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: activiti-demo
+  profiles:
+    active: dev
+

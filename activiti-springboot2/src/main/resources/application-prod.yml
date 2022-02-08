@@ -1,0 +1,24 @@
+server:
+  port: 8000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    beans:
+      enabled: false
+
+spring:
+  jdbc:
+    template:
+      max-rows: 1000
+  activiti:
+    database-schema-update: true
+    check-process-definitions: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/activiti6unit?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+    username: root
+    password: root

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn"
+             typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath"
+             targetNamespace="http://www.activiti.org/test">
+
+    <process id="my-process">
+        <startEvent id="start"/>
+        <subProcess id="subProcess">
+            <startEvent id="startSubProcess"/>
+            <parallelGateway id="startParallel"/>
+            <serviceTask id="pay" name="确认支付" activiti:class="io.github.delegate.MyPayDelegate"/>
+            <serviceTask id="take" name="确认收货" activiti:class="io.github.delegate.MyTakeDelegate"/>
+            <parallelGateway id="endParallel"/>
+            <endEvent id="endSubProcess"/>
+
+            <sequenceFlow sourceRef="startSubProcess" targetRef="startParallel"/>
+            <sequenceFlow sourceRef="startParallel" targetRef="pay"/>
+            <sequenceFlow sourceRef="startParallel" targetRef="take"/>
+            <sequenceFlow sourceRef="pay" targetRef="endParallel"/>
+            <sequenceFlow sourceRef="take" targetRef="endParallel"/>
+            <sequenceFlow sourceRef="endParallel" targetRef="endSubProcess"/>
+        </subProcess>
+        <boundaryEvent id="boundary" attachedToRef="subProcess">
+            <errorEventDefinition errorRef="bpmnError"></errorEventDefinition>
+        </boundaryEvent>
+        <userTask id="orderComplete" name="订单完成"/>
+        <userTask id="orderError" name="异常处理"/>
+        <endEvent id="end"/>
+
+        <sequenceFlow sourceRef="start" targetRef="subProcess"/>
+        <sequenceFlow sourceRef="subProcess" targetRef="orderComplete"/>
+        <sequenceFlow sourceRef="boundary" targetRef="orderError"/>
+        <sequenceFlow sourceRef="orderComplete" targetRef="end"/>
+        <sequenceFlow sourceRef="orderError" targetRef="end"/>
+    </process>
+</definitions>
