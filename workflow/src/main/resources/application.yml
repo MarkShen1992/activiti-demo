@@ -1,1 +1,21 @@
-
+spring:
+  jpa:
+    properties:
+      hibernate:
+        cache:
+          use_second_level_cache: false
+    open-in-view: true
+    generate-ddl: true # generate table automatically.
+  freemarker:
+    check-template-location: false
+    cache: false
+  liquibase:
+    enabled: false
+  activiti:
+    check-process-definitions: false
+  aop:
+    proxy-target-class: false
+server:
+  port: 8080
+  servlet:
+    context-path: "/workflow"
