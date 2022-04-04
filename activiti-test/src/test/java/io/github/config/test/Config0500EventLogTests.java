@@ -29,10 +29,11 @@ public class Config0500EventLogTests {
         Task task = activitiRule.getTaskService().createTaskQuery().singleResult();
         activitiRule.getTaskService().complete(task.getId());
 
-        List<EventLogEntry> eventLogEntries = activitiRule.getManagementService()
-                .getEventLogEntriesByProcessInstanceId(processInstance.getId());
+        List<EventLogEntry> eventLogEntries =
+            activitiRule.getManagementService().getEventLogEntriesByProcessInstanceId(processInstance.getId());
         for (EventLogEntry eventLogEntry : eventLogEntries) {
-            logger.info("event.type = {}, event.data = {}", eventLogEntry.getType(), new String(eventLogEntry.getData()));
+            logger.info("event.type = {}, event.data = {}", eventLogEntry.getType(),
+                new String(eventLogEntry.getData()));
         }
         logger.info("eventLogEntries size {}", eventLogEntries.size());
     }

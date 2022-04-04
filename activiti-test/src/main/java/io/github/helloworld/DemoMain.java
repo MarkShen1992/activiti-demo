@@ -46,7 +46,8 @@ public class DemoMain {
         logger.info("结束程序...");
     }
 
-    private static void processTask(ProcessEngine processEngine, ProcessInstance processInstance) throws ParseException {
+    private static void processTask(ProcessEngine processEngine, ProcessInstance processInstance)
+        throws ParseException {
         Map<String, Object> variables = Maps.newHashMap();
         Scanner scanner = new Scanner(System.in);
         while (processInstance != null && !processInstance.isEnded()) {
@@ -57,16 +58,15 @@ public class DemoMain {
                 logger.info("待处理任务 [{}]", task.getName());
                 getMap(processEngine, variables, scanner, task);
                 taskService.complete(task.getId(), variables);
-                processInstance = processEngine.getRuntimeService()
-                        .createProcessInstanceQuery()
-                        .processInstanceId(processInstance.getId())
-                        .singleResult();
+                processInstance = processEngine.getRuntimeService().createProcessInstanceQuery()
+                    .processInstanceId(processInstance.getId()).singleResult();
             }
         }
         scanner.close();
     }
 
-    private static void getMap(ProcessEngine processEngine, Map<String, Object> variables, Scanner scanner, Task task) throws ParseException {
+    private static void getMap(ProcessEngine processEngine, Map<String, Object> variables, Scanner scanner, Task task)
+        throws ParseException {
         FormService formService = processEngine.getFormService();
         TaskFormData taskFormData = formService.getTaskFormData(task.getId());
         List<FormProperty> formProperties = taskFormData.getFormProperties();
@@ -89,7 +89,8 @@ public class DemoMain {
         }
     }
 
-    private static ProcessInstance getProcessInstance(ProcessEngine processEngine, ProcessDefinition processDefinition) {
+    private static ProcessInstance getProcessInstance(ProcessEngine processEngine,
+        ProcessDefinition processDefinition) {
         RuntimeService runtimeService = processEngine.getRuntimeService();
         ProcessInstance processInstance = runtimeService.startProcessInstanceById(processDefinition.getId());
         logger.info("启动流程 [{}]", processInstance.getProcessDefinitionKey());
@@ -102,9 +103,8 @@ public class DemoMain {
         deploymentBuilder.addClasspathResource("second_approve.bpmn20.xml");
         Deployment deployment = deploymentBuilder.deploy();
         String deploymentId = deployment.getId();
-        ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery()
-                .deploymentId(deploymentId)
-                .singleResult();
+        ProcessDefinition processDefinition =
+            repositoryService.createProcessDefinitionQuery().deploymentId(deploymentId).singleResult();
         logger.info("流程定义对象 [{}]，流程ID [{}]", processDefinition.getName(), processDefinition.getId());
         return processDefinition;
     }

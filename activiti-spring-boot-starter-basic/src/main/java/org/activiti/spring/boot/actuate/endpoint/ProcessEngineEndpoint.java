@@ -1,14 +1,12 @@
-/* Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  * 
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  */
 package org.activiti.spring.boot.actuate.endpoint;
 
@@ -24,8 +22,8 @@ import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
 import java.util.*;
 
 /**
- * Registers a Boot Actuator endpoint that provides information on the
- * running process instance and renders BPMN diagrams of the deployed processes.
+ * Registers a Boot Actuator endpoint that provides information on the running process instance and renders BPMN
+ * diagrams of the deployed processes.
  *
  * @author Josh Long
  */
@@ -44,10 +42,12 @@ public class ProcessEngineEndpoint {
         Map<String, Object> metrics = new HashMap<String, Object>();
 
         // Process definitions
-        metrics.put("processDefinitionCount", processEngine.getRepositoryService().createProcessDefinitionQuery().count());
+        metrics.put("processDefinitionCount",
+            processEngine.getRepositoryService().createProcessDefinitionQuery().count());
 
         // List of all process definitions
-        List<ProcessDefinition> processDefinitions = processEngine.getRepositoryService().createProcessDefinitionQuery().orderByProcessDefinitionKey().asc().list();
+        List<ProcessDefinition> processDefinitions = processEngine.getRepositoryService().createProcessDefinitionQuery()
+            .orderByProcessDefinitionKey().asc().list();
         List<String> processDefinitionKeys = new ArrayList<String>();
         for (ProcessDefinition processDefinition : processDefinitions) {
             processDefinitionKeys.add(processDefinition.getKey() + " (v" + processDefinition.getVersion() + ")");
@@ -59,31 +59,36 @@ public class ProcessEngineEndpoint {
         metrics.put("runningProcessInstanceCount", processInstanceCountMap);
         for (ProcessDefinition processDefinition : processDefinitions) {
             processInstanceCountMap.put(processDefinition.getKey() + " (v" + processDefinition.getVersion() + ")",
-                    processEngine.getRuntimeService().createProcessInstanceQuery().processDefinitionId(processDefinition.getId()).count());
+                processEngine.getRuntimeService().createProcessInstanceQuery()
+                    .processDefinitionId(processDefinition.getId()).count());
         }
         Map<String, Object> completedProcessInstanceCountMap = new HashMap<String, Object>();
         metrics.put("completedProcessInstanceCount", completedProcessInstanceCountMap);
         for (ProcessDefinition processDefinition : processDefinitions) {
-            completedProcessInstanceCountMap.put(processDefinition.getKey() + " (v" + processDefinition.getVersion() + ")",
-                    processEngine.getHistoryService().createHistoricProcessInstanceQuery().finished().processDefinitionId(processDefinition.getId()).count());
+            completedProcessInstanceCountMap.put(
+                processDefinition.getKey() + " (v" + processDefinition.getVersion() + ")",
+                processEngine.getHistoryService().createHistoricProcessInstanceQuery().finished()
+                    .processDefinitionId(processDefinition.getId()).count());
         }
 
         // Open tasks
         metrics.put("openTaskCount", processEngine.getTaskService().createTaskQuery().count());
-        metrics.put("completedTaskCount", processEngine.getHistoryService().createHistoricTaskInstanceQuery().finished().count());
-
+        metrics.put("completedTaskCount",
+            processEngine.getHistoryService().createHistoricTaskInstanceQuery().finished().count());
 
         // Tasks completed today
-        metrics.put("completedTaskCountToday", processEngine.getHistoryService().createHistoricTaskInstanceQuery().finished().taskCompletedAfter(
-                new Date(System.currentTimeMillis() - secondsForDays(1))).count());
+        metrics.put("completedTaskCountToday", processEngine.getHistoryService().createHistoricTaskInstanceQuery()
+            .finished().taskCompletedAfter(new Date(System.currentTimeMillis() - secondsForDays(1))).count());
 
         // Process steps
-        metrics.put("completedActivities", processEngine.getHistoryService().createHistoricActivityInstanceQuery().finished().count());
+        metrics.put("completedActivities",
+            processEngine.getHistoryService().createHistoricActivityInstanceQuery().finished().count());
 
         // Process definition cache
-        DeploymentCache<ProcessDefinitionCacheEntry> deploymentCache = ((ProcessEngineConfigurationImpl) processEngine.getProcessEngineConfiguration()).getProcessDefinitionCache();
+        DeploymentCache<ProcessDefinitionCacheEntry> deploymentCache =
+            ((ProcessEngineConfigurationImpl)processEngine.getProcessEngineConfiguration()).getProcessDefinitionCache();
         if (deploymentCache instanceof DefaultDeploymentCache) {
-            metrics.put("cachedProcessDefinitionCount", ((DefaultDeploymentCache) deploymentCache).size());
+            metrics.put("cachedProcessDefinitionCount", ((DefaultDeploymentCache)deploymentCache).size());
         }
         return metrics;
     }

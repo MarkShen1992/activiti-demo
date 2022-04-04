@@ -36,7 +36,8 @@ public class TaskServiceTest {
     public void testTaskService() {
         Map<String, Object> params = Maps.newHashMap();
         params.put("msg", "my test message...");
-        ProcessInstance processInstance = activitiRule.getRuntimeService().startProcessInstanceByKey("my-process", params);
+        ProcessInstance processInstance =
+            activitiRule.getRuntimeService().startProcessInstanceByKey("my-process", params);
         TaskService taskService = activitiRule.getTaskService();
         Task task = taskService.createTaskQuery().singleResult();
         logger.info("task = {}", StringUtils.toJSONString(task));
@@ -68,7 +69,8 @@ public class TaskServiceTest {
     public void testTaskServiceUser() {
         Map<String, Object> params = Maps.newHashMap();
         params.put("msg", "my test message...");
-        ProcessInstance processInstance = activitiRule.getRuntimeService().startProcessInstanceByKey("my-process", params);
+        ProcessInstance processInstance =
+            activitiRule.getRuntimeService().startProcessInstanceByKey("my-process", params);
         TaskService taskService = activitiRule.getTaskService();
         Task task = taskService.createTaskQuery().singleResult();
         logger.info("task = {}", StringUtils.toJSONString(task));
@@ -76,8 +78,9 @@ public class TaskServiceTest {
 
         // owner 一般为流程的发起人
         taskService.setOwner(task.getId(), "user1");
-        //        taskService.setAssignee(task.getId(), "shenjy");
-        List<Task> taskList = taskService.createTaskQuery().taskCandidateUser("shenjy").taskUnassigned().listPage(0, 100);
+        // taskService.setAssignee(task.getId(), "shenjy");
+        List<Task> taskList =
+            taskService.createTaskQuery().taskCandidateUser("shenjy").taskUnassigned().listPage(0, 100);
         for (Task task1 : taskList) {
             try {
                 taskService.claim(task1.getId(), "shenjy");
@@ -107,11 +110,11 @@ public class TaskServiceTest {
     public void testTaskAttachment() {
         Map<String, Object> params = Maps.newHashMap();
         params.put("msg", "my test message...");
-        ProcessInstance processInstance = activitiRule.getRuntimeService().startProcessInstanceByKey("my-process", params);
+        ProcessInstance processInstance =
+            activitiRule.getRuntimeService().startProcessInstanceByKey("my-process", params);
         TaskService taskService = activitiRule.getTaskService();
         Task task = taskService.createTaskQuery().singleResult();
-        taskService.createAttachment("url", task.getId(), task.getProcessInstanceId(), "name",
-                "desc", "/url/test.png");
+        taskService.createAttachment("url", task.getId(), task.getProcessInstanceId(), "name", "desc", "/url/test.png");
         List<Attachment> taskAttachments = taskService.getTaskAttachments(task.getId());
         for (Attachment taskAttachment : taskAttachments) {
             logger.info("taskAttachment = {}", StringUtils.toJSONString(taskAttachment));
@@ -123,7 +126,8 @@ public class TaskServiceTest {
     public void testTaskComment() {
         Map<String, Object> params = Maps.newHashMap();
         params.put("msg", "my test message...");
-        ProcessInstance processInstance = activitiRule.getRuntimeService().startProcessInstanceByKey("my-process", params);
+        ProcessInstance processInstance =
+            activitiRule.getRuntimeService().startProcessInstanceByKey("my-process", params);
         TaskService taskService = activitiRule.getTaskService();
         Task task = taskService.createTaskQuery().singleResult();
         taskService.setOwner(task.getId(), "user1");

@@ -40,10 +40,8 @@ public class DB0600HITest {
 
     @Test
     public void testHistoryService() {
-        activitiRule.getRepositoryService().createDeployment()
-                .name("test deployment...")
-                .addClasspathResource("my-process.bpmn20.xml")
-                .deploy();
+        activitiRule.getRepositoryService().createDeployment().name("test deployment...")
+            .addClasspathResource("my-process.bpmn20.xml").deploy();
 
         RuntimeService runtimeService = activitiRule.getRuntimeService();
         Map<String, Object> variables = Maps.newHashMap();
@@ -56,8 +54,7 @@ public class DB0600HITest {
         TaskService taskService = activitiRule.getTaskService();
         Task task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
         taskService.setOwner(task.getId(), "user1");
-        taskService.createAttachment("url",
-                task.getId(), processInstance.getId(), "name", "desc", "/url/test.png");
+        taskService.createAttachment("url", task.getId(), processInstance.getId(), "name", "desc", "/url/test.png");
 
         taskService.addComment(task.getId(), task.getProcessInstanceId(), "record note1");
         taskService.addComment(task.getId(), task.getProcessInstanceId(), "record note2");

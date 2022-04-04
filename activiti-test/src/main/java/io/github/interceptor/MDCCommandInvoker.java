@@ -16,7 +16,7 @@ public class MDCCommandInvoker extends DebugCommandInvoker {
         boolean mdcEnabled = LogMDC.isMDCEnabled();
         LogMDC.setMDCEnabled(true);
         if (runnable instanceof AbstractOperation) {
-            AbstractOperation operation = (AbstractOperation) runnable;
+            AbstractOperation operation = (AbstractOperation)runnable;
             if (operation.getExecution() != null) {
                 LogMDC.putMDCExecution(operation.getExecution());
             }

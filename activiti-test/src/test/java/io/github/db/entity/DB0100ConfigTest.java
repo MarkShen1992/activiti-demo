@@ -25,9 +25,8 @@ public class DB0100ConfigTest {
 
     @Test
     public void testDefaultDBConfig() {
-        ProcessEngine processEngine = ProcessEngineConfiguration
-                .createProcessEngineConfigurationFromResourceDefault()
-                .buildProcessEngine();
+        ProcessEngine processEngine =
+            ProcessEngineConfiguration.createProcessEngineConfigurationFromResourceDefault().buildProcessEngine();
         ManagementService managementService = processEngine.getManagementService();
         Map<String, Long> tableCount = managementService.getTableCount();
         List<String> tableNames = Lists.newArrayList(tableCount.keySet());
@@ -41,8 +40,7 @@ public class DB0100ConfigTest {
     @Test
     public void testMySQLDBConfig() {
         ProcessEngine processEngine = ProcessEngineConfiguration
-                .createProcessEngineConfigurationFromResource("activiti-mysql.cfg.xml")
-                .buildProcessEngine();
+            .createProcessEngineConfigurationFromResource("activiti-mysql.cfg.xml").buildProcessEngine();
         ManagementService managementService = processEngine.getManagementService();
         Map<String, Long> tableCount = managementService.getTableCount();
         List<String> tableNames = Lists.newArrayList(tableCount.keySet());
@@ -56,8 +54,7 @@ public class DB0100ConfigTest {
     @Test
     public void testRemoveTableSchema() {
         ProcessEngine processEngine = ProcessEngineConfiguration
-                .createProcessEngineConfigurationFromResource("activiti-mysql.cfg.xml")
-                .buildProcessEngine();
+            .createProcessEngineConfigurationFromResource("activiti-mysql.cfg.xml").buildProcessEngine();
         ManagementService managementService = processEngine.getManagementService();
         managementService.executeCommand(commandContext -> {
             commandContext.getDbSqlSession().dbSchemaDrop();

@@ -14,12 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 子流程分类：常规子流程，事件子流程，调用子流程（推荐）
- * 子流程测试
- * 1. 分层建模
- * 2. 数据隔离
- * 3. 事件范围
- * 4. 边界事件
+ * 子流程分类：常规子流程，事件子流程，调用子流程（推荐） 子流程测试 1. 分层建模 2. 数据隔离 3. 事件范围 4. 边界事件
  *
  * @author shenjunyu
  * @email sjy13149@cnki.net
@@ -49,7 +44,7 @@ public class SubProcessTest {
         Map<String, Object> vars = Maps.newHashMap();
         vars.put("errorFlag", true);
         ProcessInstance processInstance =
-                activitiRule.getRuntimeService().startProcessInstanceByKey("my-process", vars);
+            activitiRule.getRuntimeService().startProcessInstanceByKey("my-process", vars);
         Task task = activitiRule.getTaskService().createTaskQuery().singleResult();
         logger.info("task.name = {}", task.getName());
 
@@ -58,10 +53,7 @@ public class SubProcessTest {
     }
 
     /**
-     * 事件触发
-     * 业务独立
-     * 中断事件流程
-     * 错误开始事件
+     * 事件触发 业务独立 中断事件流程 错误开始事件
      */
     @Test
     @Deployment(resources = {"bpmn2.0_event_subprocess1.bpmn20.xml"})
@@ -69,7 +61,7 @@ public class SubProcessTest {
         Map<String, Object> vars = Maps.newHashMap();
         vars.put("errorFlag", true);
         ProcessInstance processInstance =
-                activitiRule.getRuntimeService().startProcessInstanceByKey("my-process", vars);
+            activitiRule.getRuntimeService().startProcessInstanceByKey("my-process", vars);
         Task task = activitiRule.getTaskService().createTaskQuery().singleResult();
         logger.info("task.name = {}", task.getName());
 
@@ -78,8 +70,7 @@ public class SubProcessTest {
     }
 
     /**
-     * 当发现结果与我们的猜想发生不一致的情况时，我们首先要做的是查看流程定义文件，然后通过修改
-     * 可疑节点的 name 进行调试
+     * 当发现结果与我们的猜想发生不一致的情况时，我们首先要做的是查看流程定义文件，然后通过修改 可疑节点的 name 进行调试
      */
     @Test
     @Deployment(resources = {"bpmn2.0_main_process.bpmn20.xml", "bpmn2.0_main_subprocess.bpmn20.xml"})
@@ -88,7 +79,7 @@ public class SubProcessTest {
         vars.put("errorFlag", false);
         vars.put("key0", "value0");
         ProcessInstance processInstance =
-                activitiRule.getRuntimeService().startProcessInstanceByKey("my-process", vars);
+            activitiRule.getRuntimeService().startProcessInstanceByKey("my-process", vars);
         Task task = activitiRule.getTaskService().createTaskQuery().singleResult();
         logger.info("task.name = {}", task.getName());
 
@@ -103,7 +94,7 @@ public class SubProcessTest {
         vars.put("errorFlag", true);
         vars.put("key0", "value0");
         ProcessInstance processInstance =
-                activitiRule.getRuntimeService().startProcessInstanceByKey("my-process", vars);
+            activitiRule.getRuntimeService().startProcessInstanceByKey("my-process", vars);
         Task task = activitiRule.getTaskService().createTaskQuery().singleResult();
         logger.info("task.name = {}", task.getName());
 

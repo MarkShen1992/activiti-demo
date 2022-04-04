@@ -36,10 +36,8 @@ public class DB0300RETest {
 
     @Test
     public void testReDeploy() {
-        activitiRule.getRepositoryService().createDeployment()
-                .name("second audit process...")
-                .addClasspathResource("second_approve.bpmn20.xml")
-                .deploy();
+        activitiRule.getRepositoryService().createDeployment().name("second audit process...")
+            .addClasspathResource("second_approve.bpmn20.xml").deploy();
     }
 
     @Test

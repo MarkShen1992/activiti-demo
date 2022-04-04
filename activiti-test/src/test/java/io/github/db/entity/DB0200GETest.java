@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
  * @since 2022/1/4 8:22
  */
 public class DB0200GETest {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(DB0200GETest.class);
 
     @Rule
@@ -34,10 +34,8 @@ public class DB0200GETest {
 
     @Test
     public void testByteArrays() {
-        activitiRule.getRepositoryService().createDeployment()
-                .name("test deployment...")
-                .addClasspathResource("my-process.bpmn20.xml")
-                .deploy();
+        activitiRule.getRepositoryService().createDeployment().name("test deployment...")
+            .addClasspathResource("my-process.bpmn20.xml").deploy();
     }
 
     @Test

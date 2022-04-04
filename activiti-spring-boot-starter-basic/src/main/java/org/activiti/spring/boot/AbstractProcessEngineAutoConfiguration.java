@@ -1,14 +1,12 @@
-/* Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  * 
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  */
 package org.activiti.spring.boot;
 
@@ -47,173 +45,172 @@ import org.springframework.util.StringUtils;
  *
  * @author Josh Long
  */
-public abstract class AbstractProcessEngineAutoConfiguration
-        extends AbstractProcessEngineConfiguration {
+public abstract class AbstractProcessEngineAutoConfiguration extends AbstractProcessEngineConfiguration {
 
-  protected ActivitiProperties activitiProperties;
+    protected ActivitiProperties activitiProperties;
 
-  @Autowired
-  private ResourcePatternResolver resourceLoader;
-  
-  @Autowired(required=false)
-  private ProcessEngineConfigurationConfigurer processEngineConfigurationConfigurer;
+    @Autowired
+    private ResourcePatternResolver resourceLoader;
 
-  @Bean
-  public SpringAsyncExecutor springAsyncExecutor(TaskExecutor taskExecutor) {
-    return new SpringAsyncExecutor(taskExecutor, springRejectedJobsHandler());
-  }
-  
-  @Bean
-  public SpringJobManager springJobManager() {
-    return new SpringJobManager();
-  }
-  
-  @Bean 
-  public SpringRejectedJobsHandler springRejectedJobsHandler() {
-    return new SpringCallerRunsRejectedJobsHandler();
-  }
+    @Autowired(required = false)
+    private ProcessEngineConfigurationConfigurer processEngineConfigurationConfigurer;
 
-  protected SpringProcessEngineConfiguration baseSpringProcessEngineConfiguration(DataSource dataSource, PlatformTransactionManager platformTransactionManager,
-                                                                                  SpringAsyncExecutor springAsyncExecutor, SpringJobManager springJobManager) throws IOException {
-
-    List<Resource> procDefResources = this.discoverProcessDefinitionResources(
-        this.resourceLoader, this.activitiProperties.getProcessDefinitionLocationPrefix(),
-        this.activitiProperties.getProcessDefinitionLocationSuffixes(),
-        this.activitiProperties.isCheckProcessDefinitions());
-
-    SpringProcessEngineConfiguration conf = super.processEngineConfigurationBean(
-        procDefResources.toArray(new Resource[procDefResources.size()]), dataSource, 
-        platformTransactionManager, springAsyncExecutor, springJobManager);
-
-    conf.setDeploymentName(defaultText(activitiProperties.getDeploymentName(), conf.getDeploymentName()));
-    conf.setDatabaseSchema(defaultText(activitiProperties.getDatabaseSchema(), conf.getDatabaseSchema()));
-    conf.setDatabaseSchemaUpdate(defaultText(activitiProperties.getDatabaseSchemaUpdate(), conf.getDatabaseSchemaUpdate()));
-    
-    conf.setDbIdentityUsed(activitiProperties.isDbIdentityUsed());
-    conf.setDbHistoryUsed(activitiProperties.isDbHistoryUsed());
-    
-    conf.setAsyncExecutorActivate(activitiProperties.isAsyncExecutorActivate());
-    
-    conf.setMailServerHost(activitiProperties.getMailServerHost());
-    conf.setMailServerPort(activitiProperties.getMailServerPort());
-    conf.setMailServerUsername(activitiProperties.getMailServerUserName());
-    conf.setMailServerPassword(activitiProperties.getMailServerPassword());
-    conf.setMailServerDefaultFrom(activitiProperties.getMailServerDefaultFrom());
-    conf.setMailServerUseSSL(activitiProperties.isMailServerUseSsl());
-    conf.setMailServerUseTLS(activitiProperties.isMailServerUseTls());
-    
-    conf.setHistoryLevel(activitiProperties.getHistoryLevel());
-
-    if (activitiProperties.getCustomMybatisMappers() != null) {
-      conf.setCustomMybatisMappers(getCustomMybatisMapperClasses(activitiProperties.getCustomMybatisMappers()));
+    @Bean
+    public SpringAsyncExecutor springAsyncExecutor(TaskExecutor taskExecutor) {
+        return new SpringAsyncExecutor(taskExecutor, springRejectedJobsHandler());
     }
 
-    if (activitiProperties.getCustomMybatisXMLMappers() != null) {
-      conf.setCustomMybatisXMLMappers(new HashSet<String>(activitiProperties.getCustomMybatisXMLMappers()));
+    @Bean
+    public SpringJobManager springJobManager() {
+        return new SpringJobManager();
     }
 
-    if (activitiProperties.getCustomMybatisMappers() != null) {
-      conf.setCustomMybatisMappers(getCustomMybatisMapperClasses(activitiProperties.getCustomMybatisMappers()));
+    @Bean
+    public SpringRejectedJobsHandler springRejectedJobsHandler() {
+        return new SpringCallerRunsRejectedJobsHandler();
     }
 
-    if (activitiProperties.getCustomMybatisXMLMappers() != null) {
-      conf.setCustomMybatisXMLMappers(new HashSet<String>(activitiProperties.getCustomMybatisXMLMappers()));
+    protected SpringProcessEngineConfiguration baseSpringProcessEngineConfiguration(DataSource dataSource,
+        PlatformTransactionManager platformTransactionManager, SpringAsyncExecutor springAsyncExecutor,
+        SpringJobManager springJobManager) throws IOException {
+
+        List<Resource> procDefResources = this.discoverProcessDefinitionResources(this.resourceLoader,
+            this.activitiProperties.getProcessDefinitionLocationPrefix(),
+            this.activitiProperties.getProcessDefinitionLocationSuffixes(),
+            this.activitiProperties.isCheckProcessDefinitions());
+
+        SpringProcessEngineConfiguration conf =
+            super.processEngineConfigurationBean(procDefResources.toArray(new Resource[procDefResources.size()]),
+                dataSource, platformTransactionManager, springAsyncExecutor, springJobManager);
+
+        conf.setDeploymentName(defaultText(activitiProperties.getDeploymentName(), conf.getDeploymentName()));
+        conf.setDatabaseSchema(defaultText(activitiProperties.getDatabaseSchema(), conf.getDatabaseSchema()));
+        conf.setDatabaseSchemaUpdate(
+            defaultText(activitiProperties.getDatabaseSchemaUpdate(), conf.getDatabaseSchemaUpdate()));
+
+        conf.setDbIdentityUsed(activitiProperties.isDbIdentityUsed());
+        conf.setDbHistoryUsed(activitiProperties.isDbHistoryUsed());
+
+        conf.setAsyncExecutorActivate(activitiProperties.isAsyncExecutorActivate());
+
+        conf.setMailServerHost(activitiProperties.getMailServerHost());
+        conf.setMailServerPort(activitiProperties.getMailServerPort());
+        conf.setMailServerUsername(activitiProperties.getMailServerUserName());
+        conf.setMailServerPassword(activitiProperties.getMailServerPassword());
+        conf.setMailServerDefaultFrom(activitiProperties.getMailServerDefaultFrom());
+        conf.setMailServerUseSSL(activitiProperties.isMailServerUseSsl());
+        conf.setMailServerUseTLS(activitiProperties.isMailServerUseTls());
+
+        conf.setHistoryLevel(activitiProperties.getHistoryLevel());
+
+        if (activitiProperties.getCustomMybatisMappers() != null) {
+            conf.setCustomMybatisMappers(getCustomMybatisMapperClasses(activitiProperties.getCustomMybatisMappers()));
+        }
+
+        if (activitiProperties.getCustomMybatisXMLMappers() != null) {
+            conf.setCustomMybatisXMLMappers(new HashSet<String>(activitiProperties.getCustomMybatisXMLMappers()));
+        }
+
+        if (activitiProperties.getCustomMybatisMappers() != null) {
+            conf.setCustomMybatisMappers(getCustomMybatisMapperClasses(activitiProperties.getCustomMybatisMappers()));
+        }
+
+        if (activitiProperties.getCustomMybatisXMLMappers() != null) {
+            conf.setCustomMybatisXMLMappers(new HashSet<String>(activitiProperties.getCustomMybatisXMLMappers()));
+        }
+
+        if (processEngineConfigurationConfigurer != null) {
+            processEngineConfigurationConfigurer.configure(conf);
+        }
+
+        return conf;
     }
-    
-    if (processEngineConfigurationConfigurer != null) {
-    	processEngineConfigurationConfigurer.configure(conf);
+
+    protected Set<Class<?>> getCustomMybatisMapperClasses(List<String> customMyBatisMappers) {
+        Set<Class<?>> mybatisMappers = new HashSet<Class<?>>();
+        for (String customMybatisMapperClassName : customMyBatisMappers) {
+            try {
+                Class customMybatisClass = Class.forName(customMybatisMapperClassName);
+                mybatisMappers.add(customMybatisClass);
+            } catch (ClassNotFoundException e) {
+                throw new IllegalArgumentException("Class " + customMybatisMapperClassName + " has not been found.", e);
+            }
+        }
+        return mybatisMappers;
     }
 
-    return conf;
-  }
-  
-  protected Set<Class<?>> getCustomMybatisMapperClasses(List<String> customMyBatisMappers) {
-    Set<Class<?>> mybatisMappers = new HashSet<Class<?>>();
-    for (String customMybatisMapperClassName : customMyBatisMappers) {
-      try {
-        Class customMybatisClass = Class.forName(customMybatisMapperClassName);
-        mybatisMappers.add(customMybatisClass);
-      } catch (ClassNotFoundException e) {
-        throw new IllegalArgumentException("Class " + customMybatisMapperClassName + " has not been found.", e);
-      }
+    protected String defaultText(String deploymentName, String deploymentName1) {
+        if (StringUtils.hasText(deploymentName))
+            return deploymentName;
+        return deploymentName1;
     }
-    return mybatisMappers;
-  }
 
+    @Autowired
+    protected void setActivitiProperties(ActivitiProperties activitiProperties) {
+        this.activitiProperties = activitiProperties;
+    }
 
-  protected String defaultText(String deploymentName, String deploymentName1) {
-    if (StringUtils.hasText(deploymentName))
-      return deploymentName;
-    return deploymentName1;
-  }
+    protected ActivitiProperties getActivitiProperties() {
+        return this.activitiProperties;
+    }
 
-  @Autowired
-  protected void setActivitiProperties(ActivitiProperties activitiProperties) {
-    this.activitiProperties = activitiProperties;
-  }
+    @Bean
+    public ProcessEngineFactoryBean processEngine(SpringProcessEngineConfiguration configuration) throws Exception {
+        return super.springProcessEngineBean(configuration);
+    }
 
-  protected ActivitiProperties getActivitiProperties() {
-    return this.activitiProperties;
-  }
+    @Bean
+    @ConditionalOnMissingBean
+    @Override
+    public RuntimeService runtimeServiceBean(ProcessEngine processEngine) {
+        return super.runtimeServiceBean(processEngine);
+    }
 
+    @Bean
+    @ConditionalOnMissingBean
+    @Override
+    public RepositoryService repositoryServiceBean(ProcessEngine processEngine) {
+        return super.repositoryServiceBean(processEngine);
+    }
 
-  @Bean
-  public ProcessEngineFactoryBean processEngine(SpringProcessEngineConfiguration configuration) throws Exception {
-    return super.springProcessEngineBean(configuration);
-  }
+    @Bean
+    @ConditionalOnMissingBean
+    @Override
+    public TaskService taskServiceBean(ProcessEngine processEngine) {
+        return super.taskServiceBean(processEngine);
+    }
 
-  @Bean
-  @ConditionalOnMissingBean
-  @Override
-  public RuntimeService runtimeServiceBean(ProcessEngine processEngine) {
-    return super.runtimeServiceBean(processEngine);
-  }
+    @Bean
+    @ConditionalOnMissingBean
+    @Override
+    public HistoryService historyServiceBean(ProcessEngine processEngine) {
+        return super.historyServiceBean(processEngine);
+    }
 
-  @Bean
-  @ConditionalOnMissingBean
-  @Override
-  public RepositoryService repositoryServiceBean(ProcessEngine processEngine) {
-    return super.repositoryServiceBean(processEngine);
-  }
+    @Bean
+    @ConditionalOnMissingBean
+    @Override
+    public ManagementService managementServiceBeanBean(ProcessEngine processEngine) {
+        return super.managementServiceBeanBean(processEngine);
+    }
 
-  @Bean
-  @ConditionalOnMissingBean
-  @Override
-  public TaskService taskServiceBean(ProcessEngine processEngine) {
-    return super.taskServiceBean(processEngine);
-  }
+    @Bean
+    @ConditionalOnMissingBean
+    @Override
+    public FormService formServiceBean(ProcessEngine processEngine) {
+        return super.formServiceBean(processEngine);
+    }
 
-  @Bean
-  @ConditionalOnMissingBean
-  @Override
-  public HistoryService historyServiceBean(ProcessEngine processEngine) {
-    return super.historyServiceBean(processEngine);
-  }
+    @Bean
+    @ConditionalOnMissingBean
+    @Override
+    public IdentityService identityServiceBean(ProcessEngine processEngine) {
+        return super.identityServiceBean(processEngine);
+    }
 
-  @Bean
-  @ConditionalOnMissingBean
-  @Override
-  public ManagementService managementServiceBeanBean(ProcessEngine processEngine) {
-    return super.managementServiceBeanBean(processEngine);
-  }
-
-  @Bean
-  @ConditionalOnMissingBean
-  @Override
-  public FormService formServiceBean(ProcessEngine processEngine) {
-    return super.formServiceBean(processEngine);
-  }
-
-  @Bean
-  @ConditionalOnMissingBean
-  @Override
-  public IdentityService identityServiceBean(ProcessEngine processEngine) {
-    return super.identityServiceBean(processEngine);
-  }
-
-  @Bean
-  @ConditionalOnMissingBean
-  public TaskExecutor taskExecutor() {
-    return new SimpleAsyncTaskExecutor();
-  }
+    @Bean
+    @ConditionalOnMissingBean
+    public TaskExecutor taskExecutor() {
+        return new SimpleAsyncTaskExecutor();
+    }
 }

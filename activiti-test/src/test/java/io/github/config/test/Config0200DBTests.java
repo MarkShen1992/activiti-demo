@@ -15,8 +15,8 @@ public class Config0200DBTests {
      */
     @Test
     public void testConfigDB1() {
-        ProcessEngineConfiguration configuration = ProcessEngineConfiguration
-                .createProcessEngineConfigurationFromResourceDefault();
+        ProcessEngineConfiguration configuration =
+            ProcessEngineConfiguration.createProcessEngineConfigurationFromResourceDefault();
 
         logger.info("configuration = [{}]", configuration);
         ProcessEngine processEngine = configuration.buildProcessEngine();
@@ -25,14 +25,12 @@ public class Config0200DBTests {
     }
 
     /**
-     * 使用 MySQL 数据库存储相关数据
-     * 在执行本测试用例的时候，首先要做的是在本地环境中安装 MySQL 8.0 数据库
-     * 并创建空数据库 activiti6unit
+     * 使用 MySQL 数据库存储相关数据 在执行本测试用例的时候，首先要做的是在本地环境中安装 MySQL 8.0 数据库 并创建空数据库 activiti6unit
      */
     @Test
     public void testConfigDB2() {
-        ProcessEngineConfiguration configuration = ProcessEngineConfiguration
-                .createProcessEngineConfigurationFromResource("activiti_druid.cfg.xml");
+        ProcessEngineConfiguration configuration =
+            ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti_druid.cfg.xml");
 
         logger.info("configuration = [{}]", configuration);
         ProcessEngine processEngine = configuration.buildProcessEngine();

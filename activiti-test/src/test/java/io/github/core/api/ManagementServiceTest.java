@@ -78,8 +78,7 @@ public class ManagementServiceTest {
     public void testTablePageQuery() {
         ManagementService managementService = activitiRule.getManagementService();
         TablePage tablePage = managementService.createTablePageQuery()
-                .tableName(managementService.getTableName(ProcessDefinitionEntity.class))
-                .listPage(0, 100);
+            .tableName(managementService.getTableName(ProcessDefinitionEntity.class)).listPage(0, 100);
         List<Map<String, Object>> rows = tablePage.getRows();
         for (Map<String, Object> row : rows) {
             logger.info("row info = {}", row);
@@ -91,12 +90,13 @@ public class ManagementServiceTest {
     public void testExecuteCustomSQL() {
         activitiRule.getRuntimeService().startProcessInstanceByKey("my-process");
         ManagementService managementService = activitiRule.getManagementService();
-        List<Map<String, Object>> maps = managementService.executeCustomSql(new AbstractCustomSqlExecution<MyCustomMapper, List<Map<String, Object>>>(MyCustomMapper.class) {
-            @Override
-            public List<Map<String, Object>> execute(MyCustomMapper o) {
-                return o.findAll();
-            }
-        });
+        List<Map<String, Object>> maps = managementService.executeCustomSql(
+            new AbstractCustomSqlExecution<MyCustomMapper, List<Map<String, Object>>>(MyCustomMapper.class) {
+                @Override
+                public List<Map<String, Object>> execute(MyCustomMapper o) {
+                    return o.findAll();
+                }
+            });
         for (Map<String, Object> map : maps) {
             logger.info("map info = {}", map);
         }
@@ -107,14 +107,15 @@ public class ManagementServiceTest {
     public void testExecuteActivitiCommand() {
         activitiRule.getRuntimeService().startProcessInstanceByKey("my-process");
         ManagementService managementService = activitiRule.getManagementService();
-        ProcessDefinitionEntity processDefinition = managementService.executeCommand(new Command<ProcessDefinitionEntity>() {
-            @Override
-            public ProcessDefinitionEntity execute(CommandContext commandContext) {
-                ProcessDefinitionEntity processDefinitionEntity = commandContext.getProcessDefinitionEntityManager()
+        ProcessDefinitionEntity processDefinition =
+            managementService.executeCommand(new Command<ProcessDefinitionEntity>() {
+                @Override
+                public ProcessDefinitionEntity execute(CommandContext commandContext) {
+                    ProcessDefinitionEntity processDefinitionEntity = commandContext.getProcessDefinitionEntityManager()
                         .findLatestProcessDefinitionByKey("my-process");
-                return processDefinitionEntity;
-            }
-        });
+                    return processDefinitionEntity;
+                }
+            });
         logger.info("processDefinition = {}", processDefinition);
     }
 
@@ -123,10 +124,8 @@ public class ManagementServiceTest {
     public void testExecuteActivitiCommand2() {
         activitiRule.getRuntimeService().startProcessInstanceByKey("my-process");
         ManagementService managementService = activitiRule.getManagementService();
-        ProcessDefinitionEntity processDefinition = managementService.executeCommand(commandContext ->
-                commandContext.getProcessDefinitionEntityManager()
-                        .findLatestProcessDefinitionByKey("my-process")
-        );
+        ProcessDefinitionEntity processDefinition = managementService.executeCommand(commandContext -> commandContext
+            .getProcessDefinitionEntityManager().findLatestProcessDefinitionByKey("my-process"));
         logger.info("processDefinition = {}", processDefinition);
     }
 }

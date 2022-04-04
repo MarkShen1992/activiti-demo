@@ -39,44 +39,38 @@ public class DB0500RUTest {
 
     @Test
     public void testRunTime() {
-        activitiRule.getRepositoryService().createDeployment()
-                .name("second audit process...")
-                .addClasspathResource("second_approve.bpmn20.xml")
-                .deploy();
+        activitiRule.getRepositoryService().createDeployment().name("second audit process...")
+            .addClasspathResource("second_approve.bpmn20.xml").deploy();
         Map<String, Object> variables = Maps.newHashMap();
         variables.put("key1", "value1");
-        ProcessInstance processInstance = activitiRule.getRuntimeService()
-                .startProcessInstanceByKey("second_approve", variables);
+        ProcessInstance processInstance =
+            activitiRule.getRuntimeService().startProcessInstanceByKey("second_approve", variables);
     }
 
     @Test
     public void testSetOwner() {
         TaskService taskService = activitiRule.getTaskService();
-        Task task = taskService.createTaskQuery()
-                .processDefinitionKey("second_approve").singleResult();
+        Task task = taskService.createTaskQuery().processDefinitionKey("second_approve").singleResult();
         taskService.setOwner(task.getId(), "user1");
     }
 
     @Test
     public void testMsg() {
-        activitiRule.getRepositoryService().createDeployment()
-                .addClasspathResource("my-process_msg.bpmn20.xml")
-                .deploy();
+        activitiRule.getRepositoryService().createDeployment().addClasspathResource("my-process_msg.bpmn20.xml")
+            .deploy();
     }
 
     @Test
     public void testMsg02() {
         activitiRule.getRepositoryService().createDeployment()
-                .addClasspathResource("my-process_msg_received.bpmn20.xml")
-                .deploy();
+            .addClasspathResource("my-process_msg_received.bpmn20.xml").deploy();
         activitiRule.getRuntimeService().startProcessInstanceByKey("my-process");
     }
 
     @Test
     public void testJob() throws InterruptedException {
-        activitiRule.getRepositoryService().createDeployment()
-                .addClasspathResource("my-process_job.bpmn20.xml")
-                .deploy();
+        activitiRule.getRepositoryService().createDeployment().addClasspathResource("my-process_job.bpmn20.xml")
+            .deploy();
         Thread.sleep(1000 * 30L);
     }
 }

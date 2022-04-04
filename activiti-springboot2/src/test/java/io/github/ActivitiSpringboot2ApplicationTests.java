@@ -11,14 +11,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class ActivitiSpringboot2ApplicationTests {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ActivitiSpringboot2ApplicationTests.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ActivitiSpringboot2ApplicationTests.class);
 
-	@Autowired
-	RuntimeService runtimeService;
+    @Autowired
+    RuntimeService runtimeService;
 
-	@Test
-	void contextLoads() {
-		ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("my-process");
-		LOGGER.info("processInstance = {}", processInstance);
-	}
+    @Test
+    void contextLoads() {
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("my-process");
+        LOGGER.info("processInstance = {}", processInstance);
+    }
 }

@@ -61,10 +61,8 @@ public class RunTimeServiceTest {
         Map<String, Object> params = Maps.newHashMap();
         params.put("key1", "value1");
         ProcessInstanceBuilder processInstanceBuilder = runtimeService.createProcessInstanceBuilder();
-        processInstanceBuilder.businessKey("businessKey001")
-                .processDefinitionKey("my-process")
-                .variables(params)
-                .start();
+        processInstanceBuilder.businessKey("businessKey001").processDefinitionKey("my-process").variables(params)
+            .start();
         ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("my-process", params);
         logger.info("process instance {}", processInstance);
     }
@@ -101,8 +99,8 @@ public class RunTimeServiceTest {
         ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("my-process", params);
         logger.info("process instance {}", processInstance);
 
-        ProcessInstance processInstance1 = runtimeService.createProcessInstanceQuery()
-                .processInstanceId(processInstance.getId()).singleResult();
+        ProcessInstance processInstance1 =
+            runtimeService.createProcessInstanceQuery().processInstanceId(processInstance.getId()).singleResult();
         assertNotNull(processInstance1);
     }
 
@@ -133,9 +131,7 @@ public class RunTimeServiceTest {
         logger.info("someTask = {}", someTask);
         runtimeService.trigger(someTask.getId());
 
-        someTask = runtimeService.createExecutionQuery()
-                .activityId("someTask")
-                .singleResult();
+        someTask = runtimeService.createExecutionQuery().activityId("someTask").singleResult();
         logger.info("someTask = {}", someTask);
     }
 
@@ -144,8 +140,8 @@ public class RunTimeServiceTest {
     public void testSignalEventReceived() {
         RuntimeService runtimeService = activitiRule.getRuntimeService();
         ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("my-process");
-        Execution execution = runtimeService.createExecutionQuery()
-                .signalEventSubscriptionName("my-signal").singleResult();
+        Execution execution =
+            runtimeService.createExecutionQuery().signalEventSubscriptionName("my-signal").singleResult();
         logger.info("execution = {}", execution);
         runtimeService.signalEventReceived("my-signal");
     }
@@ -156,8 +152,8 @@ public class RunTimeServiceTest {
         RuntimeService runtimeService = activitiRule.getRuntimeService();
         ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("my-process");
         assertNotNull(processInstance);
-        Execution execution = runtimeService.createExecutionQuery()
-                .messageEventSubscriptionName("my-message").singleResult();
+        Execution execution =
+            runtimeService.createExecutionQuery().messageEventSubscriptionName("my-message").singleResult();
         logger.info("execution = {}", execution);
         runtimeService.messageEventReceived("my-message", execution.getId());
     }

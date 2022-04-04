@@ -40,8 +40,8 @@ public class FormServiceTest {
     @Deployment(resources = {"my-process_form.bpmn20.xml"})
     public void testFormService() {
         FormService formService = activitiRule.getFormService();
-        ProcessDefinition processDefinition = activitiRule.getRepositoryService()
-                .createProcessDefinitionQuery().singleResult();
+        ProcessDefinition processDefinition =
+            activitiRule.getRepositoryService().createProcessDefinitionQuery().singleResult();
         String startFormKey = formService.getStartFormKey(processDefinition.getId());
         logger.info("startFormKey = {}", startFormKey);
 

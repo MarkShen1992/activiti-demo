@@ -14,8 +14,8 @@ public class Config0100Tests {
      */
     @Test
     public void testConfig1() {
-        ProcessEngineConfiguration configuration = ProcessEngineConfiguration
-                .createProcessEngineConfigurationFromResourceDefault();
+        ProcessEngineConfiguration configuration =
+            ProcessEngineConfiguration.createProcessEngineConfigurationFromResourceDefault();
 
         logger.info("configuration = {}", configuration);
     }
@@ -25,8 +25,8 @@ public class Config0100Tests {
      */
     @Test
     public void testConfig2() {
-        ProcessEngineConfiguration configuration = ProcessEngineConfiguration
-                .createStandaloneProcessEngineConfiguration();
+        ProcessEngineConfiguration configuration =
+            ProcessEngineConfiguration.createStandaloneProcessEngineConfiguration();
 
         logger.info("configuration = {}", configuration);
     }

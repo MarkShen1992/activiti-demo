@@ -1,14 +1,12 @@
-/* Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  * 
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  */
 package org.activiti.spring.integration;
 
@@ -33,24 +31,22 @@ public class Activiti {
     }
 
     /**
-     * This is the bean to expose and then reference
-     * from your Activiti BPMN flow in an expression.
+     * This is the bean to expose and then reference from your Activiti BPMN flow in an expression.
      */
     public static IntegrationActivityBehavior inboundGatewayActivityBehavior(ActivitiInboundGateway gateway) {
         return new IntegrationActivityBehavior(gateway);
     }
 
     /**
-     * Any message that enters this {@link org.springframework.messaging.MessageHandler}
-     * containing a {@code executionId} parameter will trigger a
-     * {@link org.activiti.engine.RuntimeService#signal(String)}.
+     * Any message that enters this {@link org.springframework.messaging.MessageHandler} containing a
+     * {@code executionId} parameter will trigger a {@link org.activiti.engine.RuntimeService#signal(String)}.
      */
     public static MessageHandler signallingMessageHandler(final ProcessEngine processEngine) {
         return new MessageHandler() {
             @Override
             public void handleMessage(Message<?> message) throws MessagingException {
-                String executionId = message.getHeaders().containsKey("executionId") ?
-                        (String) message.getHeaders().get("executionId") : (String) null;
+                String executionId = message.getHeaders().containsKey("executionId")
+                    ? (String)message.getHeaders().get("executionId") : (String)null;
 
                 if (null != executionId)
                     processEngine.getRuntimeService().trigger(executionId);

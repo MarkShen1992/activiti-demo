@@ -45,15 +45,13 @@ public class HistoryServiceTest {
 
         Map<String, Object> transientVars = Maps.newHashMap();
         transientVars.put("tKey1", "tValue1");
-        ProcessInstance processInstance = processInstanceBuilder.processDefinitionKey("my-process")
-                .variables(vars)
-                .transientVariables(transientVars)
-                .start();
+        ProcessInstance processInstance = processInstanceBuilder.processDefinitionKey("my-process").variables(vars)
+            .transientVariables(transientVars).start();
 
         activitiRule.getRuntimeService().setVariable(processInstance.getId(), "key1", "value1_1");
 
-        Task task = activitiRule.getTaskService().createTaskQuery()
-                .processInstanceId(processInstance.getId()).singleResult();
+        Task task =
+            activitiRule.getTaskService().createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
 
         // activitiRule.getTaskService().complete(task.getId(), vars);
         Map<String, String> params = Maps.newHashMap();
@@ -61,26 +59,26 @@ public class HistoryServiceTest {
         params.put("key2", "value_2_2");
         activitiRule.getFormService().submitTaskFormData(task.getId(), params);
 
-        List<HistoricProcessInstance> historicProcessInstances = historyService.createHistoricProcessInstanceQuery()
-                .listPage(0, 100);
+        List<HistoricProcessInstance> historicProcessInstances =
+            historyService.createHistoricProcessInstanceQuery().listPage(0, 100);
         for (HistoricProcessInstance historicProcessInstance : historicProcessInstances) {
             logger.info("historicProcessInstance = {}", StringUtils.toJSONString(historicProcessInstance));
         }
 
-        List<HistoricActivityInstance> historicActivityInstances = historyService.createHistoricActivityInstanceQuery()
-                .listPage(0, 100);
+        List<HistoricActivityInstance> historicActivityInstances =
+            historyService.createHistoricActivityInstanceQuery().listPage(0, 100);
         for (HistoricActivityInstance historicActivityInstance : historicActivityInstances) {
             logger.info("historicActivityInstance = {}", StringUtils.toJSONString(historicActivityInstance));
         }
 
-        List<HistoricTaskInstance> historicTaskInstances = historyService.createHistoricTaskInstanceQuery()
-                .listPage(0, 100);
+        List<HistoricTaskInstance> historicTaskInstances =
+            historyService.createHistoricTaskInstanceQuery().listPage(0, 100);
         for (HistoricTaskInstance historicTaskInstance : historicTaskInstances) {
             logger.info("historicTaskInstance = {}", StringUtils.toJSONString(historicTaskInstance));
         }
 
-        List<HistoricVariableInstance> historicVariableInstances = historyService.createHistoricVariableInstanceQuery()
-                .listPage(0, 100);
+        List<HistoricVariableInstance> historicVariableInstances =
+            historyService.createHistoricVariableInstanceQuery().listPage(0, 100);
         for (HistoricVariableInstance historicVariableInstance : historicVariableInstances) {
             logger.info("historicVariableInstance = {}", StringUtils.toJSONString(historicVariableInstance));
         }
@@ -90,13 +88,9 @@ public class HistoryServiceTest {
             logger.info("historicDetail = {}", StringUtils.toJSONString(historicDetail));
         }
 
-        ProcessInstanceHistoryLog processInstanceHistoryLog = historyService.createProcessInstanceHistoryLogQuery(processInstance.getId())
-                .includeVariables()
-                .includeFormProperties()
-                .includeComments()
-                .includeTasks()
-                .includeActivities()
-                .includeVariableUpdates().singleResult();
+        ProcessInstanceHistoryLog processInstanceHistoryLog = historyService
+            .createProcessInstanceHistoryLogQuery(processInstance.getId()).includeVariables().includeFormProperties()
+            .includeComments().includeTasks().includeActivities().includeVariableUpdates().singleResult();
 
         List<HistoricData> historicDataList = processInstanceHistoryLog.getHistoricData();
         for (HistoricData historicData : historicDataList) {
@@ -105,7 +99,7 @@ public class HistoryServiceTest {
 
         historyService.deleteHistoricProcessInstance(processInstance.getId());
         HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery()
-                .processInstanceId(processInstance.getId()).singleResult();
+            .processInstanceId(processInstance.getId()).singleResult();
         assertNull(historicProcessInstance);
     }
 }

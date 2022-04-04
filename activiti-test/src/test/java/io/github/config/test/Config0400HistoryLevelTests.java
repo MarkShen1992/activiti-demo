@@ -55,8 +55,8 @@ public class Config0400HistoryLevelTests {
     }
 
     private void outputHistoryDetails() {
-        List<HistoricDetail> historicDetails = activitiRule.getHistoryService()
-                .createHistoricDetailQuery().listPage(0, 100);
+        List<HistoricDetail> historicDetails =
+            activitiRule.getHistoryService().createHistoricDetailQuery().listPage(0, 100);
         for (HistoricDetail historicDetail : historicDetails) {
             logger.info("historicDetail = {}", StringUtils.toShortPrefixString(historicDetail));
         }
@@ -64,10 +64,8 @@ public class Config0400HistoryLevelTests {
     }
 
     private void outputHistoryForms() {
-        List<HistoricDetail> historicDetailsForms = activitiRule.getHistoryService()
-                .createHistoricDetailQuery()
-                .formProperties()
-                .listPage(0, 100);
+        List<HistoricDetail> historicDetailsForms =
+            activitiRule.getHistoryService().createHistoricDetailQuery().formProperties().listPage(0, 100);
         for (HistoricDetail historicDetail : historicDetailsForms) {
             logger.info("historicDetail = {}", StringUtils.toShortPrefixString(historicDetail));
         }
@@ -75,8 +73,8 @@ public class Config0400HistoryLevelTests {
     }
 
     private void outputHistoryTasks() {
-        List<HistoricTaskInstance> historicTaskInstances = activitiRule.getHistoryService()
-                .createHistoricTaskInstanceQuery().listPage(0, 100);
+        List<HistoricTaskInstance> historicTaskInstances =
+            activitiRule.getHistoryService().createHistoricTaskInstanceQuery().listPage(0, 100);
         for (HistoricTaskInstance historicTaskInstance : historicTaskInstances) {
             logger.info("historicTaskInstance = {}", historicTaskInstance);
         }
@@ -84,8 +82,8 @@ public class Config0400HistoryLevelTests {
     }
 
     private void outputHistoryVariables() {
-        List<HistoricVariableInstance> historicVariableInstances = activitiRule.getHistoryService()
-                .createHistoricVariableInstanceQuery().listPage(0, 100);
+        List<HistoricVariableInstance> historicVariableInstances =
+            activitiRule.getHistoryService().createHistoricVariableInstanceQuery().listPage(0, 100);
         for (HistoricVariableInstance historicVariableInstance : historicVariableInstances) {
             logger.info("historicVariableInstance = {}", historicVariableInstance);
         }
@@ -93,8 +91,8 @@ public class Config0400HistoryLevelTests {
     }
 
     private void outputHistoryActivities() {
-        List<HistoricActivityInstance> historicActivityInstances = activitiRule.getHistoryService()
-                .createHistoricActivityInstanceQuery().listPage(0, 100);
+        List<HistoricActivityInstance> historicActivityInstances =
+            activitiRule.getHistoryService().createHistoricActivityInstanceQuery().listPage(0, 100);
         for (HistoricActivityInstance historicActivityInstance : historicActivityInstances) {
             logger.info("historicActivityInstance = {}", historicActivityInstance);
         }
@@ -110,8 +108,7 @@ public class Config0400HistoryLevelTests {
     }
 
     private void modifyVariables() {
-        List<Execution> executions = activitiRule.getRuntimeService()
-                .createExecutionQuery().listPage(0, 100);
+        List<Execution> executions = activitiRule.getRuntimeService().createExecutionQuery().listPage(0, 100);
         for (Execution execution : executions) {
             logger.info("execution = {}", execution);
         }
@@ -125,7 +122,6 @@ public class Config0400HistoryLevelTests {
         params.put("keyStart1", "value1");
         params.put("keyStart2", "value2");
 
-        ProcessInstance processInstance = activitiRule.getRuntimeService()
-                .startProcessInstanceByKey("my-process");
+        ProcessInstance processInstance = activitiRule.getRuntimeService().startProcessInstanceByKey("my-process");
     }
 }

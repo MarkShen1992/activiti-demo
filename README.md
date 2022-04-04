@@ -29,3 +29,5 @@
   > IDEAJ 全项目替换 **replace in path**
   >
   > 在编译 `activiti-ui` 工程的时候，使用 `JDK1.8`, 使用`JDK1.11`会出现问题
+
+- 使用Java开发的时候一定要安装插件 Maven Helper。

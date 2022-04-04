@@ -20,10 +20,7 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 
 /**
- * 脚本任务
- * JUEL(Default)
- * Groovy脚本
- * JavaScript脚本
+ * 脚本任务 JUEL(Default) Groovy脚本 JavaScript脚本
  *
  * @author shenjunyu
  * @email sjy13149@cnki.net
@@ -42,9 +39,7 @@ public class ScriptTaskTest {
         ProcessInstance processInstance = activitiRule.getRuntimeService().startProcessInstanceByKey("my-process");
         HistoryService historyService = activitiRule.getHistoryService();
         List<HistoricVariableInstance> historicVariableInstances = historyService.createHistoricVariableInstanceQuery()
-                .processInstanceId(processInstance.getId())
-                .orderByVariableName().asc()
-                .listPage(0, 100);
+            .processInstanceId(processInstance.getId()).orderByVariableName().asc().listPage(0, 100);
         for (HistoricVariableInstance historicVariableInstance : historicVariableInstances) {
             logger.info("variable = {}", historicVariableInstance);
         }
@@ -57,12 +52,11 @@ public class ScriptTaskTest {
         Map<String, Object> variables = Maps.newHashMap();
         variables.put("key1", 1);
         variables.put("key2", 2);
-        ProcessInstance processInstance = activitiRule.getRuntimeService().startProcessInstanceByKey("my-process", variables);
+        ProcessInstance processInstance =
+            activitiRule.getRuntimeService().startProcessInstanceByKey("my-process", variables);
         HistoryService historyService = activitiRule.getHistoryService();
         List<HistoricVariableInstance> historicVariableInstances = historyService.createHistoricVariableInstanceQuery()
-                .processInstanceId(processInstance.getId())
-                .orderByVariableName().asc()
-                .listPage(0, 100);
+            .processInstanceId(processInstance.getId()).orderByVariableName().asc().listPage(0, 100);
         for (HistoricVariableInstance historicVariableInstance : historicVariableInstances) {
             logger.info("variable = {}", historicVariableInstance);
         }
@@ -75,13 +69,11 @@ public class ScriptTaskTest {
         Map<String, Object> variables = Maps.newHashMap();
         variables.put("key1", 1);
         variables.put("key2", 2);
-        ProcessInstance processInstance = activitiRule.getRuntimeService()
-                .startProcessInstanceByKey("my-process", variables);
+        ProcessInstance processInstance =
+            activitiRule.getRuntimeService().startProcessInstanceByKey("my-process", variables);
         HistoryService historyService = activitiRule.getHistoryService();
         List<HistoricVariableInstance> historicVariableInstances = historyService.createHistoricVariableInstanceQuery()
-                .processInstanceId(processInstance.getId())
-                .orderByVariableName().asc()
-                .listPage(0, 100);
+            .processInstanceId(processInstance.getId()).orderByVariableName().asc().listPage(0, 100);
         for (HistoricVariableInstance historicVariableInstance : historicVariableInstances) {
             logger.info("variable = {}", historicVariableInstance);
         }

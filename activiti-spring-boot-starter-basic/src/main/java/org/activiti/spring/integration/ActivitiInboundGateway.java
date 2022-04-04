@@ -1,14 +1,12 @@
-/* Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  * 
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  */
 package org.activiti.spring.integration;
 
@@ -25,10 +23,8 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 
 /**
- * As a process enters a wait-state, this forwards the
- * flow into Spring Integration. Spring Integration flows
- * may ultimately return a reply message and that will signal the
- * execution.
+ * As a process enters a wait-state, this forwards the flow into Spring Integration. Spring Integration flows may
+ * ultimately return a reply message and that will signal the execution.
  *
  * @author Josh Long
  */
@@ -56,8 +52,7 @@ public class ActivitiInboundGateway extends MessagingGatewaySupport {
         this.sync.add(processInstanceId);
     }
 
-    public void execute(IntegrationActivityBehavior receiveTaskActivityBehavior,
-                        DelegateExecution execution) {
+    public void execute(IntegrationActivityBehavior receiveTaskActivityBehavior, DelegateExecution execution) {
         Map<String, Object> stringObjectMap = new HashMap<String, Object>();
         stringObjectMap.put(executionId, execution.getId());
 
@@ -77,9 +72,9 @@ public class ActivitiInboundGateway extends MessagingGatewaySupport {
         }
     }
 
-    public void signal(IntegrationActivityBehavior receiveTaskActivityBehavior, DelegateExecution execution, String signalName, Object data) {
+    public void signal(IntegrationActivityBehavior receiveTaskActivityBehavior, DelegateExecution execution,
+        String signalName, Object data) {
         receiveTaskActivityBehavior.leave(execution);
     }
-
 
 }
